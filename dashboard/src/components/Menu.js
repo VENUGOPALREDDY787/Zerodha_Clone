@@ -19,7 +19,7 @@ const Menu = () => {
       <div className="menus">
         <ul>
           <li>
-          <Link style={{textDecoration:"none"}} to ="/dashboard" onClick={()=>handleMenuClick(0)} >
+          <Link style={{textDecoration:"none"}} to ="/" onClick={()=>handleMenuClick(0)} >
             <p className = {selectedMenu===0 ? activeMenuClass:menuClass}>Dashboard</p>
           </Link>
           </li>

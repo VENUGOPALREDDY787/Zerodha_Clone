@@ -2,9 +2,11 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
+const cors = require('cors');
+const bodyParser = require('body-parser');
  const {HoldingModle} = require('./models/HoldingSchema.js');
  const{PostionModle} = require('./models/PostionSchema.js');
-
+ const {OrdersModle} = require('./models/OrdersSchema.js');
 const PORT = process.env.PORT || 8080;
 const MONGOURL = process.env.MONGODB_URL;
 // app.get('/addpostions',async(req,res)=>{
@@ -168,6 +170,31 @@ const MONGOURL = process.env.MONGODB_URL;
 //     await holding.save();
 // });
 // res.send("Holdings added");});
+app.use(cors());
+app.use(bodyParser.json());
+
+app.get('/allholdings', async(req, res)=>{
+    const holdings = await HoldingModle.find({});
+    res.json(holdings)
+});
+
+app.get('/allpostions', async(req, res)=>{
+    const postions = await PostionModle.find({});
+    res.json(postions);
+});
+app.post('/newOrder',async(req,res)=>{
+    let newOrder = new OrdersModle({
+    name: req.body.name,
+    qty: req.body.qty,
+    price: req.body.price,
+    mode: req.body.mode,
+    });
+    newOrder.save();
+    res.send("Order received");
+})
+
+
+
 app.listen(PORT,()=>{
     console.log(`Server is running on port ${PORT}`);  
     mongoose.connect(MONGOURL);
