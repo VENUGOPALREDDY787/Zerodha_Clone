@@ -199,10 +199,9 @@ app.post('/newOrder',async(req,res)=>{
     res.send("Order received");
 })
 
-app.post("/signup", SignUp);
-app.post('/login', Login);
-app.post('/',userVerification)
-
+// app.post("/signup", SignUp);
+// app.post('/login', Login);
+// app.post("/verify", userVerification);
 
 app.listen(PORT,()=>{
     console.log(`Server is running on port ${PORT}`);  
