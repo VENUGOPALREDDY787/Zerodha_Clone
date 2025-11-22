@@ -3,10 +3,14 @@ const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
 const cors = require('cors');
+const cookieParser = require("cookie-parser");
 const bodyParser = require('body-parser');
  const {HoldingModle} = require('./models/HoldingSchema.js');
  const{PostionModle} = require('./models/PostionSchema.js');
  const {OrdersModle} = require('./models/OrdersSchema.js');
+ const  {SignUp, Login}  = require("./Controllers/AuthControllers.js");
+ const {userVerification} = require("./Middlewares/AuthMiddleware.js");
+
 const PORT = process.env.PORT || 8080;
 const MONGOURL = process.env.MONGODB_URL;
 // app.get('/addpostions',async(req,res)=>{
@@ -172,6 +176,8 @@ const MONGOURL = process.env.MONGODB_URL;
 // res.send("Holdings added");});
 app.use(cors());
 app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(express.json());
 
 app.get('/allholdings', async(req, res)=>{
     const holdings = await HoldingModle.find({});
@@ -193,6 +199,9 @@ app.post('/newOrder',async(req,res)=>{
     res.send("Order received");
 })
 
+app.post("/signup", SignUp);
+app.post('/login', Login);
+app.post('/',userVerification)
 
 
 app.listen(PORT,()=>{
